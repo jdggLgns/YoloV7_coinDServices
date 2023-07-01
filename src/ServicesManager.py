@@ -21,5 +21,15 @@ def register():
         return json.dumps(response)
 
 
+@app.route('/login', methods=['POST'])
+def login():
+        data = request.get_json()
+        userid = data.get('userid')
+        password = data.get('password')
+
+        response = GestionUsuarios.login(userid,password)
+        return json.dumps(response)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
