@@ -14,10 +14,7 @@ class GestionUsuarios:
             else:
                 print("error")
         except BaseException as e:
-            response = {'success': False}
+            print("error " + e)
         finally:
             if con:
                 con.close()
-
-
-
