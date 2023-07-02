@@ -16,7 +16,7 @@ def register():
         userid = data.get('userid')
         password = data.get('password')
 
-        all_success = GestionUsuarios.register(name,mail,userid,password)
+        all_success = GestionUsuarios.register(name, mail, userid, password)
         response = {'success': all_success}
         return json.dumps(response)
 
@@ -27,7 +27,7 @@ def login():
         userid = data.get('userid')
         password = data.get('password')
 
-        response = GestionUsuarios.login(userid,password)
+        response = GestionUsuarios.login(userid, password)
         return json.dumps(response)
 
 

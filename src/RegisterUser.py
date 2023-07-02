@@ -32,14 +32,14 @@ class GestionUsuarios:
             result = cur.fetchone()
 
             if result:
-                name, mail, userid, password = result
+                name, mail, db_userid, db_password = result
 
                 response = {
                     'success': True,
                     'name': name,
                     'mail': mail,
-                    'userid': userid,
-                    'password': password
+                    'userid': db_userid,
+                    'password': db_password
                 }
             else:
                 response = {'success': False}
