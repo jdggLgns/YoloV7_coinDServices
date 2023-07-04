@@ -10,7 +10,7 @@ class object_detection:
 
         def __init__(self, UPLOAD_FOLDER):
                 self.UPLOAD_FOLDER = UPLOAD_FOLDER
-                self.net = cv2.dnn.readNet("yolov3_training_last.weights", "cfg/yolov3_training.cfg")
+                self.net = cv2.dnn.readNet("best15.pt", "cfg/")
                 self.layer_names = self.net.getLayerNames()
                 self.output_layers = [self.layer_names[i - 1] for i in self.net.getUnconnectedOutLayers()]
 
