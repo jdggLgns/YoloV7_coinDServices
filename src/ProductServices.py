@@ -5,11 +5,11 @@ class GestionProductos:
 
     #Devuelve el id del producto creado o None si ocurrio un error
     @staticmethod
-    def crear(_userid, _descripcion, _precio):
+    def crear(_userid, _descripcion, _precio, _tipo):
         id = None
-        if _userid and _descripcion and _precio:
-            sql = "INSERT INTO producto (userid, descripcion, precio) VALUES (%s, %s, %s)"
-            parametros = (_userid, _descripcion, _precio)
+        if _userid and _descripcion and _precio and _tipo:
+            sql = "INSERT INTO producto (userid, descripcion, precio, tipo) VALUES (%s, %s, %s, %s)"
+            parametros = (_userid, _descripcion, _precio, _tipo)
             id = SqlUtils.execInsert(sql,parametros)
         return id
 
@@ -21,7 +21,7 @@ class GestionProductos:
         if _id:
             sql = "DELETE FROM producto WHERE id = %s"
             parametros = (_id,)
-            all_success = SqlUtils.execDelete(sql,parametros)
+            all_success = SqlUtils.execDelete(sql, parametros)
         return all_success
 
 
@@ -39,7 +39,7 @@ class GestionProductos:
     # devuelve todos los productos de un usuario
     @staticmethod
     def listar_by_user(_userid):
-        sql = "SELECT id, descripcion, precio FROM producto WHERE userid = %s"
+        sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE userid = %s"
         parametros = (_userid,)
         rows = SqlUtils.execSelect(sql, parametros)
         productos = []
@@ -48,18 +48,19 @@ class GestionProductos:
                 producto = {
                     'id': row[0],
                     'descripcion': row[1],
-                    'precio': row[2]
+                    'precio': row[2],
+                    'tipo': row[3]
                 }
                 productos.append(producto)
         except BaseException as e:
             productos = []
-        return (productos)
+        return productos
 
 
     # devuelve un producto dado su id
     @staticmethod
     def obtener_por_id(_id):
-        sql = "SELECT id, descripcion, precio FROM producto WHERE id = %s"
+        sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE id = %s"
         parametros = (_id,)
         rows = SqlUtils.execSelect(sql, parametros)
         producto = {}
@@ -72,4 +73,4 @@ class GestionProductos:
                 }
         except BaseException as e:
             producto = {}
-        return (producto)
+        return producto

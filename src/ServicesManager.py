@@ -1,6 +1,6 @@
 #!/home/ubuntu/envyolo/bin/python3
 import json
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from RegisterUser import GestionUsuarios
 from ProductServices import GestionProductos
 
@@ -31,44 +31,30 @@ def login():
 
 
 #Create
-@app.route('/product', methods=['POST'])
-def register():
-        data = request.get_json()
-        userid = data.get('userid')
-        descripcion = data.get('descripcion')
-        precio = data.get('precio')
-
-        all_success = False
-        id = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio)
-        if id:
-                all_success = True
-        response = {'success': all_success, 'id': id}
-        return json.dumps(response)
-
-
-@app.route('/product', methods=['POST'])
+@app.route('/products', methods=['POST'])
 def crear_producto():
         data = request.get_json()
         userid = data.get('userid')
         descripcion = data.get('descripcion')
         precio = data.get('precio')
+        tipo = data.get('tipo')
 
         all_success = False
-        id = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio)
+        id = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio, _tipo=tipo)
         if id:
                 all_success = True
         response = {'success': all_success, 'id': id}
         return jsonify(response)
 
-
-@app.route('/producto/<int:id>', methods=['DELETE'])
-def baja_producto(id):
+#delete
+@app.route('/products/<int:id>', methods=['DELETE'])
+def eliminar_producto(id):
         all_success = GestionProductos.eliminar(id)
         response = {'success': all_success}
         return jsonify(response)
 
 
-@app.route('/producto/<int:id>', methods=['PUT'])
+@app.route('/products/<int:id>', methods=['PUT'])
 def modificar_producto(id):
         data = request.get_json()
         descripcion = data.get('descripcion')
@@ -78,14 +64,14 @@ def modificar_producto(id):
         return jsonify(response)
 
 
-@app.route('/productos/usuario/<int:userid>', methods=['GET'])
-def modificar_producto(userid):
+@app.route('/products/usuario/<int:userid>', methods=['GET'])
+def listar_productos_usuario(userid):
         productos = GestionProductos.listar_by_user(_userid=userid)
         response = {'success': True, 'productos': productos}
         return jsonify(response)
 
 
-@app.route('/productos/<int:id>', methods=['GET'])
+@app.route('/products/<int:id>', methods=['GET'])
 def modificar_producto(id):
         producto = GestionProductos.obtener_por_id(_id=id)
         response = {'success': True, 'producto': producto}
