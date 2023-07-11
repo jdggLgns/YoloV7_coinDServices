@@ -1,5 +1,4 @@
-import pymysql as pymysql
-from Project_properties import conexiones
+from SqlUtils import get_conection
 
 
 class GestionUsuarios:
@@ -9,8 +8,7 @@ class GestionUsuarios:
         all_success = True
         try:
             if _userid and _password:
-                con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
-                                      db='coindetection_database')
+                con = get_conection()
                 cur = con.cursor()
                 cur.execute("INSERT INTO usuarios (name, mail, userid, password) VALUES (%s, %s, %s, %s)",
                             (_name, _mail, _userid, _password))
@@ -29,8 +27,7 @@ class GestionUsuarios:
         con = None
         response = {'success': False}
         try:
-            con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
-                                  db='coindetection_database')
+            con = get_conection()
             cur = con.cursor()
             cur.execute("SELECT name, mail, userid, password FROM usuarios WHERE userid = %s AND password = %s",
                         (userid, password))

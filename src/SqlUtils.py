@@ -5,7 +5,7 @@ from Project_properties import conexiones
 def get_conection():
     con = None
     try:
-        con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
+        con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coin3!Detection',
                               db='coindetection_database')
     except BaseException as e:
         con = None
