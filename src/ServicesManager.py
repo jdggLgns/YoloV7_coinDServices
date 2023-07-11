@@ -38,11 +38,10 @@ def crear_producto():
     descripcion = data.get('descripcion')
     precio = data.get('precio')
     tipo = data.get('tipo')
-
     all_success = False
     id_prod = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio, _tipo=tipo)
     if id_prod:
-        print(id_prod)
+        print('ServicesManager.crear_producto - id_prod:' + str(id_prod))
         all_success = True
     response = {'success': all_success, 'id': id_prod}
     return jsonify(response)

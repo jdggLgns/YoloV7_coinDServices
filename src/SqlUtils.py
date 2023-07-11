@@ -24,12 +24,14 @@ def exec_insert(sql, params):
         id_prod = cur.lastrowid
         con.commit()
     except BaseException as e:
+        print('Error al llamar al método "exec_insert":', e)
         id_prod = None
     finally:
         if cur:
             cur.close()
         if con:
             con.close()
+        print('SqlUtils.exec_insert - id_prod:' + str(id_prod))
         return id_prod
 
 

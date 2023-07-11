@@ -11,6 +11,7 @@ class GestionProductos:
             sql = "INSERT INTO producto (userid, descripcion, precio, tipo) VALUES (%s, %s, %s, %s)"
             parametros = (_userid, _descripcion, _precio, _tipo)
             id_prod = exec_insert(sql, parametros)
+            print('ProductServices.crear - id_prod:' + str(id_prod))
         return id_prod
 
     # devuelve True si se ha podido eliminar correctamente y False en caso contrario
