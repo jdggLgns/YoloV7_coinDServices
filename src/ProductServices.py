@@ -1,17 +1,17 @@
 from SqlUtils import *
 
+
 class GestionProductos:
 
-    #Devuelve el id del producto creado o None si ocurrio un error
+    # Devuelve el id del producto creado o None si ocurrio un error
     @staticmethod
     def crear(_userid, _descripcion, _precio, _tipo):
-        id = None
+        id_prod = None
         if _userid and _descripcion and _precio and _tipo:
             sql = "INSERT INTO producto (userid, descripcion, precio, tipo) VALUES (%s, %s, %s, %s)"
             parametros = (_userid, _descripcion, _precio, _tipo)
-            id = execInsert(sql,parametros)
-        return id
-
+            id_prod = exec_insert(sql, parametros)
+        return id_prod
 
     # devuelve True si se ha podido eliminar correctamente y False en caso contrario
     @staticmethod
@@ -20,9 +20,8 @@ class GestionProductos:
         if _id:
             sql = "DELETE FROM producto WHERE id = %s"
             parametros = (_id,)
-            all_success = execDelete(sql, parametros)
+            all_success = exec_delete(sql, parametros)
         return all_success
-
 
     # devuelve True si se ha podido actualizar correctamente y False en caso contrario
     # _id: id del producto a actualizar
@@ -32,7 +31,7 @@ class GestionProductos:
         if _id and _descripcion and _precio:
             sql = "UPDATE producto SET descripcion = %s, precio = %s WHERE id = %s"
             parametros = (_descripcion, _precio, _id)
-            all_success = execUpdate(sql, parametros)
+            all_success = exec_update(sql, parametros)
         return all_success
 
     # devuelve todos los productos de un usuario
@@ -40,7 +39,7 @@ class GestionProductos:
     def listar_by_user(_userid):
         sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE userid = %s"
         parametros = (_userid,)
-        rows = execSelect(sql, parametros)
+        rows = exec_select(sql, parametros)
         productos = []
         try:
             for row in rows:
@@ -55,13 +54,12 @@ class GestionProductos:
             productos = []
         return productos
 
-
     # devuelve un producto dado su id
     @staticmethod
     def obtener_por_id(_id):
         sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE id = %s"
         parametros = (_id,)
-        rows = execSelect(sql, parametros)
+        rows = exec_select(sql, parametros)
         producto = {}
         try:
             for row in rows:

@@ -9,14 +9,16 @@ class GestionUsuarios:
         all_success = True
         try:
             if _userid and _password:
-                con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection', db='coindetection_database')
+                con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
+                                      db='coindetection_database')
                 cur = con.cursor()
-                cur.execute("INSERT INTO usuarios (name, mail, userid, password) VALUES (%s, %s, %s, %s)", (_name, _mail, _userid, _password))
+                cur.execute("INSERT INTO usuarios (name, mail, userid, password) VALUES (%s, %s, %s, %s)",
+                            (_name, _mail, _userid, _password))
                 con.commit()
             else:
                 all_success = False
         except BaseException as e:
-                all_success = False
+            all_success = False
         finally:
             if con:
                 con.close()
@@ -25,10 +27,13 @@ class GestionUsuarios:
     @staticmethod
     def login(userid, password):
         con = None
+        response = {'success': False}
         try:
-            con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection', db='coindetection_database')
+            con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
+                                  db='coindetection_database')
             cur = con.cursor()
-            cur.execute("SELECT name, mail, userid, password FROM usuarios WHERE userid = %s AND password = %s", (userid, password))
+            cur.execute("SELECT name, mail, userid, password FROM usuarios WHERE userid = %s AND password = %s",
+                        (userid, password))
             result = cur.fetchone()
 
             if result:
@@ -44,7 +49,7 @@ class GestionUsuarios:
             else:
                 response = {'success': False}
         except BaseException as e:
-                response = {'success': False}
+            response = {'success': False}
         finally:
             if con:
                 con.close()

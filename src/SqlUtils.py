@@ -1,40 +1,44 @@
 import pymysql as pymysql
 from Project_properties import conexiones
 
-def getConection():
+
+def get_conection():
     con = None
     try:
-        con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection', db='coindetection_database')
+        con = pymysql.connect(host=conexiones["conn_interna"], user='root', password='coindetection',
+                              db='coindetection_database')
     except BaseException as e:
         con = None
     return con
-SqlUtils
-
-#Devuelve el id del regidtro creado si se ha insertado correctamente y None en caso contrario
-def execInsert(sql, params):
-        con = None
-        id = None
-        try:
-            con = getConection()
-            cur = con.cursor()
-            cur.execute(sql, params)
-            id = cur.lastrowid
-            con.commit()
-        except BaseException as e:
-            id = None
-        finally:
-            if cur:
-                cur.close()
-            if con:
-                con.close()
-            return id
 
 
-def execDelete(sql, params):
+# Devuelve el id del regidtro creado si se ha insertado correctamente y None en caso contrario
+def exec_insert(sql, params):
     con = None
+    id_prod = None
+    cur = None
+    try:
+        con = get_conection()
+        cur = con.cursor()
+        cur.execute(sql, params)
+        id_prod = cur.lastrowid
+        con.commit()
+    except BaseException as e:
+        id_prod = None
+    finally:
+        if cur:
+            cur.close()
+        if con:
+            con.close()
+        return id_prod
+
+
+def exec_delete(sql, params):
+    con = None
+    cur = None
     all_success = False
     try:
-        con = getConection()
+        con = get_conection()
         cur = con.cursor()
         cur.execute(sql, params)
         con.commit()
@@ -50,11 +54,12 @@ def execDelete(sql, params):
         return all_success
 
 
-def execUpdate(sql, params):
+def exec_update(sql, params):
     con = None
+    cur = None
     all_success = False
     try:
-        con = getConection()
+        con = get_conection()
         cur = con.cursor()
         cur.execute(sql, params)
         con.commit()
@@ -69,17 +74,18 @@ def execUpdate(sql, params):
             con.close()
         return all_success
 
-ç
-def execSelect(sql, params):
+
+def exec_select(sql, params):
     con = None
-    all_success = False
+    cur = None
+    rows = None
     try:
-        con = getConection()
+        con = get_conection()
         cur = con.cursor()
         cur.execute(sql, params)
         rows = cur.fetchall()
     except BaseException as e:
-        all_success = None
+        rows = None
     finally:
         if cur:
             cur.close()

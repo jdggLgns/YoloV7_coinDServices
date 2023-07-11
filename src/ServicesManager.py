@@ -9,74 +9,76 @@ app = Flask(__name__)
 
 @app.route('/register', methods=['POST'])
 def register():
-        data = request.get_json()
-        name = data.get('name')
-        mail = data.get('mail')
-        userid = data.get('userid')
-        password = data.get('password')
+    data = request.get_json()
+    name = data.get('name')
+    mail = data.get('mail')
+    userid = data.get('userid')
+    password = data.get('password')
 
-        all_success = GestionUsuarios.register(name, mail, userid, password)
-        response = {'success': all_success}
-        return json.dumps(response)
+    all_success = GestionUsuarios.register(name, mail, userid, password)
+    response = {'success': all_success}
+    return json.dumps(response)
 
 
 @app.route('/login', methods=['POST'])
 def login():
-        data = request.get_json()
-        userid = data.get('userid')
-        password = data.get('password')
+    data = request.get_json()
+    userid = data.get('userid')
+    password = data.get('password')
 
-        response = GestionUsuarios.login(userid, password)
-        return json.dumps(response)
+    response = GestionUsuarios.login(userid, password)
+    return json.dumps(response)
 
 
-#Create
+# Create
 @app.route('/products', methods=['POST'])
 def crear_producto():
-        data = request.get_json()
-        userid = data.get('userid')
-        descripcion = data.get('descripcion')
-        precio = data.get('precio')
-        tipo = data.get('tipo')
+    data = request.get_json()
+    userid = data.get('userid')
+    descripcion = data.get('descripcion')
+    precio = data.get('precio')
+    tipo = data.get('tipo')
 
-        all_success = False
-        id = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio, _tipo=tipo)
-        if id:
-                all_success = True
-        response = {'success': all_success, 'id': id}
-        return jsonify(response)
-
-#delete
-@app.route('/products/<int:id>', methods=['DELETE'])
-def eliminar_producto(id):
-        all_success = GestionProductos.eliminar(id)
-        response = {'success': all_success}
-        return jsonify(response)
+    all_success = False
+    id_prod = GestionProductos.crear(_userid=userid, _descripcion=descripcion, _precio=precio, _tipo=tipo)
+    if id_prod:
+        print(id_prod)
+        all_success = True
+    response = {'success': all_success, 'id': id_prod}
+    return jsonify(response)
 
 
-@app.route('/products/<int:id>', methods=['PUT'])
-def modificar_producto(id):
-        data = request.get_json()
-        descripcion = data.get('descripcion')
-        precio = data.get('precio')
-        all_success = GestionProductos.actualizar(_id=id, _descripcion=descripcion, _precio=precio)
-        response = {'success': all_success}
-        return jsonify(response)
+# delete
+@app.route('/products/<int:idprod>', methods=['DELETE'])
+def eliminar_producto(idprod):
+    all_success = GestionProductos.eliminar(idprod)
+    response = {'success': all_success}
+    return jsonify(response)
+
+
+@app.route('/products/<int:idprod>', methods=['PUT'])
+def modificar_producto(idprod):
+    data = request.get_json()
+    descripcion = data.get('descripcion')
+    precio = data.get('precio')
+    all_success = GestionProductos.actualizar(_id=idprod, _descripcion=descripcion, _precio=precio)
+    response = {'success': all_success}
+    return jsonify(response)
 
 
 @app.route('/products/usuario/<int:userid>', methods=['GET'])
 def listar_productos_usuario(userid):
-        productos = GestionProductos.listar_by_user(_userid=userid)
-        response = {'success': True, 'productos': productos}
-        return jsonify(response)
+    productos = GestionProductos.listar_by_user(_userid=userid)
+    response = {'success': True, 'productos': productos}
+    return jsonify(response)
 
 
-@app.route('/products/<int:id>', methods=['GET'])
-def modificar_producto(id):
-        producto = GestionProductos.obtener_por_id(_id=id)
-        response = {'success': True, 'producto': producto}
-        return jsonify(response)
+@app.route('/products/<int:idprod>', methods=['GET'])
+def oobtener_producto(idprod):
+    producto = GestionProductos.obtener_por_id(_id=idprod)
+    response = {'success': True, 'producto': producto}
+    return jsonify(response)
 
 
 if __name__ == '__main__':
-        app.run(host='0.0.0.0', port=5003)
+    app.run(host='0.0.0.0', port=5003)
