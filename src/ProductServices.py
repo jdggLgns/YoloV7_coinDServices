@@ -1,5 +1,4 @@
-import SqlUtils
-
+from SqlUtils import *
 
 class GestionProductos:
 
@@ -10,7 +9,7 @@ class GestionProductos:
         if _userid and _descripcion and _precio and _tipo:
             sql = "INSERT INTO producto (userid, descripcion, precio, tipo) VALUES (%s, %s, %s, %s)"
             parametros = (_userid, _descripcion, _precio, _tipo)
-            id = SqlUtils.execInsert(sql,parametros)
+            id = execInsert(sql,parametros)
         return id
 
 
@@ -21,7 +20,7 @@ class GestionProductos:
         if _id:
             sql = "DELETE FROM producto WHERE id = %s"
             parametros = (_id,)
-            all_success = SqlUtils.execDelete(sql, parametros)
+            all_success = execDelete(sql, parametros)
         return all_success
 
 
@@ -33,7 +32,7 @@ class GestionProductos:
         if _id and _descripcion and _precio:
             sql = "UPDATE producto SET descripcion = %s, precio = %s WHERE id = %s"
             parametros = (_descripcion, _precio, _id)
-            all_success = SqlUtils.execUpdate(sql, parametros)
+            all_success = execUpdate(sql, parametros)
         return all_success
 
     # devuelve todos los productos de un usuario
@@ -41,7 +40,7 @@ class GestionProductos:
     def listar_by_user(_userid):
         sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE userid = %s"
         parametros = (_userid,)
-        rows = SqlUtils.execSelect(sql, parametros)
+        rows = execSelect(sql, parametros)
         productos = []
         try:
             for row in rows:
@@ -62,7 +61,7 @@ class GestionProductos:
     def obtener_por_id(_id):
         sql = "SELECT id, descripcion, precio, tipo FROM producto WHERE id = %s"
         parametros = (_id,)
-        rows = SqlUtils.execSelect(sql, parametros)
+        rows = execSelect(sql, parametros)
         producto = {}
         try:
             for row in rows:
